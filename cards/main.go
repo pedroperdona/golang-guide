@@ -2,5 +2,7 @@ package main
 
 func main() {
 	cards := newDeck()
-	cards.saveToFile("my_cards")
+	cards.print()
+	cards.suffle()
+	cards.print()
 }

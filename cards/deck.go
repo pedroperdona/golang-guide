@@ -3,7 +3,10 @@ package main
 import (
 	"fmt"
 	"io/ioutil"
+	"math/rand"
+	"os"
 	"strings"
+	"time"
 )
 
 type deck []string
@@ -23,20 +26,42 @@ func newDeck() deck {
 	return cards
 }
 
-func (d deck) print() {
-	for _, card := range d {
-		fmt.Println(card)
+func (deck deck) print() {
+	for index, card := range deck {
+		fmt.Println(index, card)
 	}
 }
 
-func deal(d deck, handSize int) (deck, deck) {
-	return d[:handSize], d[handSize:]
+func deal(deck deck, handSize int) (deck, deck) {
+	return deck[:handSize], deck[handSize:]
 }
 
-func (d deck) toString() string {
-	return strings.Join([]string(d), ",")
+func (deck deck) toString() string {
+	return strings.Join([]string(deck), ",")
 }
 
-func (d deck) saveToFile(filename string) error {
-	return ioutil.WriteFile(filename, []byte(d.toString()), 0666)
+func (deck deck) saveToFile(filename string) error {
+	return ioutil.WriteFile(filename, []byte(deck.toString()), 0666)
+}
+
+func newDeckFromFile(filename string) deck {
+	bytes, err := ioutil.ReadFile(filename)
+
+	if err != nil {
+		fmt.Println("Error: ", err)
+		os.Exit(1)
+	}
+
+	return strings.Split(string(bytes), ",")
+}
+
+func (deck deck) suffle() {
+	source := rand.NewSource(time.Now().UnixNano())
+	random := rand.New(source)
+
+	for index := range deck {
+		newPosition := random.Intn(len(deck) - 1)
+
+		deck[index], deck[newPosition] = deck[newPosition], deck[index]
+	}
 }
