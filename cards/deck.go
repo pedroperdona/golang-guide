@@ -55,7 +55,7 @@ func newDeckFromFile(filename string) deck {
 	return strings.Split(string(bytes), ",")
 }
 
-func (deck deck) suffle() {
+func (deck deck) shuffle() {
 	source := rand.NewSource(time.Now().UnixNano())
 	random := rand.New(source)
 

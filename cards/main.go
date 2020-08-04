@@ -3,6 +3,6 @@ package main
 func main() {
 	cards := newDeck()
 	cards.print()
-	cards.suffle()
+	cards.shuffle()
 	cards.print()
 }
