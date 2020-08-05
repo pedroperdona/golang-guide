@@ -2,7 +2,7 @@ package main
 
 import "fmt"
 
-type contactInfo struct {
+type contact struct {
 	email   string
 	zipCode int
 }
@@ -10,19 +10,23 @@ type contactInfo struct {
 type person struct {
 	firstName string
 	lastName  string
-	contactInfo
+	contact
 }
 
 func main() {
-
 	pedro := person{
 		firstName: "Pedro",
 		lastName:  "Perdoná",
-		contactInfo: contactInfo{
+		contact: contact{
 			email:   "p.perdona@gmail.com",
 			zipCode: 88054600,
 		},
 	}
 
-	fmt.Println(pedro)
+	pedro.updateName("João")
+	fmt.Printf("%+v", pedro)
+}
+
+func (pointerToPerson *person) updateName(newFirstName string) {
+	(*pointerToPerson).firstName = newFirstName
 }
